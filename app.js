@@ -2,7 +2,7 @@ const express = require("express")
 const mongoose = require("mongoose")
 const ejs = require("ejs")
 const path = require("path")
-const photo = require("./models/Photo")
+const Photo = require("./models/Photo")
 
 const app = express();
 
@@ -19,7 +19,7 @@ app.use(express.json())
 
 // ROUTES
 app.get("/", async (req,res) => {
-    const photos = await photo.find({})
+    const photos = await Photo.find({})
     res.render("index", {
         photos
     })
@@ -30,8 +30,14 @@ app.get("/about",(req,res) => {
 app.get("/add",(req,res) => {
     res.render("add")
 })
+app.get("/photos/:id", async(req,res) =>{
+    const photo = await (Photo.findById(req.params.id))
+    res.render("photo", {
+        photo
+    })
+})
 app.post("/photos", async (req,res) => {
-    await photo.create(req.body)
+    await Photo.create(req.body)
     res.redirect("/")
 })
 const port = 3000;
