@@ -12,7 +12,12 @@ const pageController = require("./contollers/pageController")
 const app = express();
 
 //connect DB
-mongoose.connect("mongodb://localhost/pcat-test-db");
+mongoose.connect("mongodb+srv://kaandanisment1:RYEhDK9Z8iGXGwJX@cluster0.t6utabz.mongodb.net/pcat-db?retryWrites=true&w=majority&appName=Cluster0")
+.then(()=>{
+    console.log("DB CONNECTED!")
+}).catch((err)=>{
+    console.log(err)
+})
 
 // TEMPLATE ENGİNE
 app.set("view engine", "ejs")
@@ -37,7 +42,7 @@ app.put("/photos/:id", photoController.updatePhoto)
 app.post("/photos", photoController.createPhoto)
 app.delete("/photos/:id", photoController.deletePhoto)
 
-const port = 3000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`Server started in port ${port} `)
 });
